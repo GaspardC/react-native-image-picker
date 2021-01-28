@@ -276,11 +276,12 @@ RCT_EXPORT_METHOD(launchImageLibrary:(NSDictionary *)options callback:(RCTRespon
         [self checkCameraPermissions:permissionBlock];
     }
     else {
-        if (@available(iOS 11.0, *)) {
-            callback(YES);
-        } else {
+        // we need permission to retrieve original image dimensions
+        // if (@available(iOS 11.0, *)) {
+        //     callback(YES);
+        // } else {
             [self checkPhotosPermissions:permissionBlock];
-        }
+        // }
     }
 }
 
