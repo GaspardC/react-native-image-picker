@@ -101,8 +101,8 @@ RCT_EXPORT_METHOD(launchImageLibrary:(NSDictionary *)options callback:(RCTRespon
 
     NSURL *imagePath = [info objectForKey:UIImagePickerControllerReferenceURL];
     NSString *originalImagePath = imagePath.absoluteString;
-    PHFetchResult *result = [PHAsset fetchAssetsWithALAssetURLs:@[imagePath] options:nil];
-    NSString *originalImageName = [[result firstObject] filename];
+    //PHFetchResult *result = [PHAsset fetchAssetsWithALAssetURLs:@[originalImagePath] options:nil];
+  //  NSString *originalFileName = [[result firstObject] filename];
 
     NSURL *imageURL = [ImagePickerManager getNSURLFromInfo:info];
     self.response = [[NSMutableDictionary alloc] init];
@@ -149,7 +149,7 @@ RCT_EXPORT_METHOD(launchImageLibrary:(NSDictionary *)options callback:(RCTRespon
     }
 
     self.response[@"fileName"] = fileName;
-    self.response[@"originalImageName"] = originalImageName;
+    //self.response[@"originalFileName"] = originalFileName;
     self.response[@"originalImagePath"] = originalImagePath;
     self.response[@"width"] = @(image.size.width);
     self.response[@"height"] = @(image.size.height);
@@ -276,12 +276,11 @@ RCT_EXPORT_METHOD(launchImageLibrary:(NSDictionary *)options callback:(RCTRespon
         [self checkCameraPermissions:permissionBlock];
     }
     else {
-        // we need permission to retrieve original image dimensions
-        // if (@available(iOS 11.0, *)) {
-        //     callback(YES);
-        // } else {
+        if (@available(iOS 11.0, *)) {
+            callback(YES);
+        } else {
             [self checkPhotosPermissions:permissionBlock];
-        // }
+        }
     }
 }
 
